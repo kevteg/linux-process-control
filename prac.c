@@ -10,7 +10,7 @@
 #include <dirent.h>
 #include <sys/types.h>
 #include <pwd.h>
-
+//Hecho por Kevin Hernández - Ci 21256207
 #define COLOR_ROJO            "\x1b[31m"
 #define COLOR_NORMAL          "\x1b[0m"
 #define COLOR_VERDE           "\x1b[32m"
@@ -117,14 +117,14 @@ int mostrarOpcion(int n_opc){
   int n_ = 1;
   char *opciones[opc] = {"\tGestión de procesos\n",
                       " 1) Ejecutar nuevo proceso\n"
-                      " Escriba la ruta del proceso: ",
+                      " Escriba la ruta del proceso (con parametros separados por espacio): ",
                       " 2) Lista de procesos\n",
                       " 3) Matar algún proceso\n",
                       " 4) Créditos\n"
                       " Hecho por: Kevin Hernández - ci 21256207\n"
                       " Presione una tecla para continuar",
                       " 5) Salir\n"
-                      " Presione una tecla para salir"
+                      " Presione una tecla para salir\n"
                     };
 
   fflush(stdin);
