@@ -177,35 +177,36 @@ int menu(int n_opc){
   }
 }
 int ejecutarProceso(char *comando_completo){
-  pid_t pid;
-  int index_com, num_arg = 1;
-  char **argumentos;
-  int index_arg  = 0;
-  int letras_arg = 0;
-
-  for(index_com = 0; index_com < strlen(comando_completo); index_com++)
+    pid_t pid;
+    int index_com, num_arg = 1;
+    int index_arg  = 0;
+    int letras_arg = 0;
+    char *aux;
+    for(index_com = 0; index_com < strlen(comando_completo); index_com++)
     if(comando_completo[index_com] == ' ')
       num_arg++;
-      argumentos = malloc((num_arg + 1)*sizeof(char)); //Creo el char * con el número de los argumentos
-      for(index_com = 0; index_com < num_arg; index_com++)
-        argumentos[index_com] = malloc(100*sizeof(char)); //Y luego a cada uno le reservo 20 chars
-      /*guardo los argumentos*/
-      for(index_com = 0; index_com < strlen(comando_completo); index_com++){
-        if(comando_completo[index_com] == ' '){
-          //argumentos[index_arg][letras_arg++] = '\0';
-          letras_arg = 0;
-          index_arg++;
-        }else
-          argumentos[index_arg][letras_arg++] = comando_completo[index_com];
-        }
-        argumentos[num_arg] = NULL;
-        getch();
-        pid = fork();
-        if(!pid) {// Soy el hijo
-          printf("\n\tEjecución del proceso %s (PID %d): \n",argumentos[0], getpid());
-          execv(argumentos[0], argumentos);
-          return 5; //Para que hijo se salga al terminar
-        }else if(pid == -1)
+    char *argumentos[num_arg + 1];  //Creo el char * con el número de los argumentos
+    for(index_com = 0; index_com < num_arg; index_com++)
+    argumentos[index_com] = malloc(50*sizeof(char)); //Y luego a cada uno le reservo 20 chars
+    /*guardo los argumentos*/
+    aux = strtok(comando_completo, " ");
+    index_com = 0;
+    printf("%d\n", num_arg);
+    while(aux){
+      strcpy(argumentos[index_com++], aux);
+      aux = strtok(NULL, " ");
+    }
+    argumentos[num_arg] = NULL;
+    for(index_com = 0; index_com < num_arg; index_com++)
+        printf("%s\n", argumentos[index_com]);
+    fflush(stdin);
+    getch();
+    pid = fork();
+    if(!pid) {// Soy el hijo
+      printf("\n\tEjecución del proceso %s (PID %d): \n",argumentos[0], getpid());
+      execv(argumentos[0], argumentos);
+      return 5; //Para que hijo se salga al terminar
+    }else if(pid == -1)
         printf("Error: fork erróneo");
   return 0; // Padre
 }
